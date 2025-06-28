@@ -1,5 +1,6 @@
 package com.example.scrapingandai.service;
 
+import de.l3s.boilerpipe.extractors.ArticleExtractor;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.net.URI;
@@ -81,9 +82,9 @@ public class ScrapperServiceImpl implements ScrapperService {
 
           String fileName;
           if (indexOfParenthesis != -1) {
-            fileName = linkName.substring(0, indexOfParenthesis).trim() + ".html";
+            fileName = linkName.substring(0, indexOfParenthesis).trim() + ".txt";
           } else {
-            fileName = linkName.trim() + ".html";
+            fileName = linkName.trim() + ".txt";
           }
 
           log.info("Processing: {}", fileName);
@@ -97,7 +98,8 @@ public class ScrapperServiceImpl implements ScrapperService {
 
           var filePath = saveDirPath.resolve(fileName.replaceAll(ILLEGAL_CHARS, "_"));
           try (var writer = new FileWriter(filePath.toFile())) {
-            writer.write(articleHtml);
+            var defaultText = ArticleExtractor.INSTANCE.getText(articleHtml);
+            writer.write(defaultText);
           }
           log.info("Successfully processed: {}", fileName);
         }

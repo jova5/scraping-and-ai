@@ -30,6 +30,32 @@
   <properties>
     <java.version>21</java.version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>ow2-public</id>
+      <name>OW2 Public Repository</name>
+      <url>https://repository.ow2.org/nexus/content/repositories/public/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <dependencies>
 <!--    <dependency>-->
 <!--      <groupId>org.springframework.boot</groupId>-->
@@ -44,6 +70,28 @@
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>1.21.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.htmlunit/neko-htmlunit -->
+    <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>neko-htmlunit</artifactId>
+      <version>2.70.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.cyberneko</groupId>
+      <artifactId>html</artifactId>
+      <version>1.9.8</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.12.2</version>
+    </dependency>
+    <dependency>
+      <groupId>de.l3s.boilerpipe</groupId>
+      <artifactId>boilerpipe</artifactId>
+      <version>1.1.0</version>
     </dependency>
 
     <dependency>
