@@ -1,6 +1,7 @@
 package com.example.scrapingandai.service;
 
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.net.URI;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ScrapperServiceImpl implements ScrapperService {
+
+  private static final String ILLEGAL_CHARS = "[<>:\"/\\|?*]";
 
   @Override
   public void startScrappingPdf() {
@@ -49,6 +52,56 @@ public class ScrapperServiceImpl implements ScrapperService {
       }
 
       log.info("===== FINISHED =====");
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public void startScrappingHtml() {
+
+    var url = "https://www.paragraf.ba/besplatni-propisi-republike-srpske.html";
+
+    try {
+
+      var document = Jsoup.connect(url).get();
+      var elements = document.select("ul");
+
+      for (var element : elements) {
+
+        if (!element.id().equals("propisi-la")) {
+          continue;
+        }
+
+        var links = element.select("li > a");
+
+        for (var link : links) {
+          var linkName = link.text();
+          var indexOfParenthesis = linkName.indexOf("(");
+
+          String fileName;
+          if (indexOfParenthesis != -1) {
+            fileName = linkName.substring(0, indexOfParenthesis).trim() + ".html";
+          } else {
+            fileName = linkName.trim() + ".html";
+          }
+
+          log.info("Processing: {}", fileName);
+
+          var newDocument = Jsoup.connect(link.attr("abs:href")).get();
+          var article = newDocument.select("article").first();
+          var articleHtml = article.outerHtml();
+          var htmlSaveDir = "html_laws";
+          var saveDirPath = Paths.get(htmlSaveDir);
+          Files.createDirectories(saveDirPath);
+
+          var filePath = saveDirPath.resolve(fileName.replaceAll(ILLEGAL_CHARS, "_"));
+          try (var writer = new FileWriter(filePath.toFile())) {
+            writer.write(articleHtml);
+          }
+          log.info("Successfully processed: {}", fileName);
+        }
+      }
     } catch (Exception e) {
       log.error(e.getMessage(), e);
     }

@@ -14,8 +14,13 @@ public class ScrapperController {
   private final ScrapperService scrapperService;
 
   @PostMapping("/pdf")
-  public void startScrapping() {
+  public void startScrappingPdf() {
     scrapperService.startScrappingPdf();
+  }
+
+  @PostMapping("/html")
+  public void startScrappingHtml() {
+    scrapperService.startScrappingHtml();
   }
 }
 
