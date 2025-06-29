@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/scrapper")
 public class ScrapperController {
 
-  private final ScrapperService scrapperService;
+  private final ScrapperService service;
 
   @PostMapping("/pdf")
   public void startScrappingPdf() {
-    scrapperService.startScrappingPdf();
+    service.startScrappingPdf();
   }
 
   @PostMapping("/html")
   public void startScrappingHtml() {
-    scrapperService.startScrappingHtml();
+    service.startScrappingHtml();
   }
 }
 

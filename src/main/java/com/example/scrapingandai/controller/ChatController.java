@@ -12,10 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/chat")
 public class ChatController {
 
-  private final ChatService chatService;
+  private final ChatService service;
 
   @GetMapping
   public String prompt(@RequestParam String message) {
-    return chatService.prompt(message);
+    return service.prompt(message);
+  }
+
+  @GetMapping("/laws")
+  public String promptAboutLaws(@RequestParam String message) {
+    return service.promptAboutLaws(message);
   }
 }
